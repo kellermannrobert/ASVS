@@ -1,0 +1,32 @@
+name: manage-azure-policy-6a609871
+on:
+  workflow_dispatch:
+    inputs:
+      remarks:
+        description: 'Reason for triggering the workflow run'
+        required: false
+        default: 'Updating Azure Policies'
+
+
+## Uncomment the following if you wish to automatically trigger workflow run with every commit
+#
+#  push:
+#    paths:
+#      - 'policies/Azure_Defender_for_App_Service_should_be_enabled_2913021d-f2fd-4f3d-b958-22354e2bdbcb/**'
+#      - .github/workflows/manage-azure-policy-6a609871.yml
+jobs:
+  apply-azure-policy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{secrets.AZURE_CREDENTIALS_6a609871}}
+        allow-no-subscriptions: true
+    - name: Create or Update Azure Policies
+      uses: azure/manage-azure-policy@v0
+      with:
+        paths: |
+          policies/Azure_Defender_for_App_Service_should_be_enabled_2913021d-f2fd-4f3d-b958-22354e2bdbcb/**
